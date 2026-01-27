@@ -11,7 +11,6 @@
             margin: 0;
             font-family: system-ui, sans-serif;
             background: #f5f7fa;
-
             min-height: 100vh;
 
             display: flex;
@@ -21,8 +20,6 @@
             /* vertical */
         }
 
-
-
         .carousel {
             position: relative;
             width: 100%;
@@ -31,23 +28,33 @@
             background: #000;
         }
 
+        /* TRACK VERTICAL */
         .carousel__track {
             display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
+            flex-direction: column;
+            /* vertical */
+            overflow-y: auto;
+            /* scroll vertical */
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+            /* snap vertical */
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
+            height: 100vh;
+            /* altura pantalla */
         }
 
         .carousel__track::-webkit-scrollbar {
             display: none;
         }
 
+        /* SLIDE FULLSCREEN (vertical) */
         .carousel__slide {
-            flex: 0 0 100%;
+            flex: 0 0 100vh;
+            /* ocupa una pantalla */
+            height: 100vh;
             scroll-snap-align: start;
-            aspect-ratio: 16 / 9;
             background: #111;
             display: grid;
             place-items: center;
@@ -66,11 +73,8 @@
             display: block;
         }
 
-
         .carousel__btn {
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
             border: 0;
             width: 42px;
             height: 42px;
@@ -84,20 +88,28 @@
             z-index: 5;
         }
 
+        /* Botón ARRIBA */
         .carousel__btn--prev {
-            left: 10px;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
+        /* Botón ABAJO */
         .carousel__btn--next {
-            right: 10px;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .carousel__dots {
             position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 10px;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
             display: flex;
+            flex-direction: column;
+            /* dots en vertical */
             gap: 8px;
             justify-content: center;
             z-index: 5;
@@ -142,8 +154,6 @@
             /* background: rgba(255, 0, 0, 0.25); */
         }
     </style>
-
-
 </head>
 
 <body>
@@ -161,6 +171,7 @@
             <article class="carousel__slide">
                 <video src="media/3.mp4" autoplay muted loop playsinline></video>
             </article>
+
             <article class="carousel__slide">
                 <video src="media/4.mp4" autoplay muted loop playsinline></video>
                 <!-- Área clickeable SOLO en una parte -->
@@ -169,13 +180,18 @@
                     target="_blank" rel="noopener" aria-label="Ver ubicación en Google Maps">
                 </a>
             </article>
+
             <article class="carousel__slide">
                 <video src="media/5.mp4" autoplay muted loop playsinline></video>
             </article>
+
+            <article class="carousel__slide">
+                <video src="media/6.mp4" autoplay muted loop playsinline></video>
+            </article>
         </div>
 
-        <button class="carousel__btn carousel__btn--prev" type="button" aria-label="Anterior">‹</button>
-        <button class="carousel__btn carousel__btn--next" type="button" aria-label="Siguiente">›</button>
+        <button class="carousel__btn carousel__btn--prev" type="button" aria-label="Anterior">↑</button>
+        <button class="carousel__btn carousel__btn--next" type="button" aria-label="Siguiente">↓</button>
 
         <div class="carousel__dots" id="carouselDots" aria-label="Indicadores"></div>
     </section>
@@ -194,7 +210,7 @@
             }, 1000);
         });
 
-        // CARRUSEL
+        // CARRUSEL VERTICAL
         window.addEventListener('load', () => {
             const track = document.getElementById('carouselTrack');
             const slides = Array.from(track.children);
@@ -207,7 +223,7 @@
                 b.type = 'button';
                 b.setAttribute('aria-label', `Ir al slide ${i + 1}`);
                 b.addEventListener('click', () => {
-                    track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' });
+                    track.scrollTo({ top: i * track.clientHeight, behavior: 'smooth' });
                 });
                 dotsWrap.appendChild(b);
             });
@@ -217,8 +233,9 @@
             const next = document.querySelector('.carousel__btn--next');
 
             function currentIndex() {
-                return Math.round(track.scrollLeft / track.clientWidth);
+                return Math.round(track.scrollTop / track.clientHeight);
             }
+
             function updateDots() {
                 const idx = currentIndex();
                 dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
@@ -226,12 +243,12 @@
 
             prev.addEventListener('click', () => {
                 const idx = Math.max(0, currentIndex() - 1);
-                track.scrollTo({ left: idx * track.clientWidth, behavior: 'smooth' });
+                track.scrollTo({ top: idx * track.clientHeight, behavior: 'smooth' });
             });
 
             next.addEventListener('click', () => {
                 const idx = Math.min(slides.length - 1, currentIndex() + 1);
-                track.scrollTo({ left: idx * track.clientWidth, behavior: 'smooth' });
+                track.scrollTo({ top: idx * track.clientHeight, behavior: 'smooth' });
             });
 
             track.addEventListener('scroll', () => requestAnimationFrame(updateDots));
