@@ -223,6 +223,40 @@
         .audio-btn.is-playing {
             background: rgba(0, 0, 0, 0.8);
         }
+
+         @media (min-width: 768px) {
+            body {
+                padding: 24px;
+            }
+
+            .carousel {
+                width: min(700px, 100%);
+                /* limita ancho */
+                height: 100vh;
+                /* ocupa alto de la pantalla */
+                border-radius: 16px;
+                overflow: hidden;
+            }
+
+            .carousel__track {
+                height: 100vh;
+                /* asegura alto */
+            }
+
+            .carousel__slide {
+                flex: 0 0 100vh;
+                height: 100vh;
+            }
+        }
+
+        @media (min-width: 1024px) {
+
+            .carousel__slide>img,
+            .carousel__slide>video {
+                object-fit: cover;
+                /* prueba cover; si recorta mucho, vuelve a contain */
+            }
+        }
     </style>
 </head>
 
