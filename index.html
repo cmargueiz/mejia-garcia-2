@@ -153,6 +153,34 @@
             /* debug visual (quitar luego) */
             /* background: rgba(255, 0, 0, 0.25); */
         }
+
+        .audio-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 20;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            backdrop-filter: blur(4px);
+            transition: transform .2s ease, background .2s ease;
+        }
+
+        .audio-btn:hover {
+            transform: scale(1.08);
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .audio-btn.is-playing {
+            background: rgba(0, 0, 0, 0.8);
+        }
     </style>
 </head>
 
@@ -162,6 +190,9 @@
         <div class="carousel__track" id="carouselTrack">
             <article class="carousel__slide">
                 <img src="media/1.svg" alt="Slide 1">
+                <button class="audio-btn" id="audioBtn" aria-label="Reproducir música">
+                    🔊
+                </button>
             </article>
 
             <article class="carousel__slide">
@@ -202,12 +233,22 @@
     <script>
         // AUDIO (solo una vez)
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                const audio = document.getElementById('audio');
-                audio.play().catch(() => {
-                    document.addEventListener('click', () => audio.play(), { once: true });
-                });
-            }, 1000);
+            const audio = document.getElementById('audio');
+            const btn = document.getElementById('audioBtn');
+
+            if (!btn) return;
+
+            btn.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                    btn.classList.add('is-playing');
+                    btn.innerText = '⏸️';
+                } else {
+                    audio.pause();
+                    btn.classList.remove('is-playing');
+                    btn.innerText = '🔊';
+                }
+            });
         });
 
         // CARRUSEL VERTICAL
