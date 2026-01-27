@@ -23,7 +23,7 @@
             width: 100%;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(63, 69, 81, 0.16);
-            background: #000;
+            /* background: #000; */
         }
 
         /* TRACK VERTICAL */
@@ -52,7 +52,7 @@
             display: grid;
             place-items: center;
             position: relative;
-            background: #000;
+            /* background: #000; */
             overflow: hidden;
         }
 
@@ -301,35 +301,6 @@
             });
         });
 
-        // ===== Fondo “degradado” según media (blur + cover + overlay) =====
-        function ensureBackgroundForSlide(slide) {
-            // si ya existe, no duplicar
-            if (slide.querySelector('.slide__bg')) return;
-
-            const media = slide.querySelector('img, video');
-            if (!media) return;
-
-            const bg = document.createElement('div');
-            bg.className = 'slide__bg';
-
-            let bgMedia;
-            if (media.tagName.toLowerCase() === 'img') {
-                bgMedia = document.createElement('img');
-                bgMedia.alt = '';
-                bgMedia.src = media.currentSrc || media.src;
-            } else {
-                // duplicamos el video para que el fondo también “viva”
-                bgMedia = document.createElement('video');
-                bgMedia.src = media.currentSrc || media.src;
-                bgMedia.autoplay = true;
-                bgMedia.muted = true;
-                bgMedia.loop = true;
-                bgMedia.playsInline = true;
-            }
-
-            bg.appendChild(bgMedia);
-            slide.prepend(bg); // al inicio para quedar detrás
-        }
 
         window.addEventListener('load', () => {
             const track = document.getElementById('carouselTrack');
@@ -337,7 +308,6 @@
             const dotsWrap = document.getElementById('carouselDots');
 
             slides.forEach(slide => {
-                ensureBackgroundForSlide(slide);
 
                 // si imagen carga luego, actualiza el fondo con el src final
                 const img = slide.querySelector('img');
