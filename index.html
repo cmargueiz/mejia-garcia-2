@@ -300,7 +300,6 @@
     </section>
 
     <audio id="audio" src="musica.mpeg" preload="auto"></audio>
-
     <script>
         window.addEventListener('load', () => {
             const track = document.getElementById('carouselTrack');
@@ -347,22 +346,13 @@
                     else pauseAudio();
                 });
 
-                // 🔒 Cambiar de app / background / pestaña
+                /* 🔒 SOLO PAUSA AL SALIR DEL SITIO / CAMBIAR DE APP */
                 document.addEventListener('visibilitychange', () => {
                     if (document.hidden) pauseAudio();
                 });
 
                 window.addEventListener('pagehide', pauseAudio); // iOS Safari
-                window.addEventListener('blur', pauseAudio);     // sistema
-
-                // 📍 Si sales del primer slide → pausa música
-                function currentIndex() {
-                    return Math.round(track.scrollTop / track.clientHeight);
-                }
-
-                track.addEventListener('scroll', () => {
-                    if (currentIndex() !== 0 && !audio.paused) pauseAudio();
-                }, { passive: true });
+                window.addEventListener('blur', pauseAudio);     // cambio de app / ventana
 
                 // Sincronizar icono
                 audio.addEventListener('pause', () => setBtnPlaying(false));
