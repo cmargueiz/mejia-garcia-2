@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2-Boda Mejia Garcia</title>
+    <title>1-Boda Mejia Garcia</title>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -17,6 +17,21 @@
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        /* HOTSPOT (zona clickeable encima del video) */
+        .hotspot {
+            position: absolute;
+            z-index: 20;
+            /* encima del video */
+            left: 0;
+            top: 56%;
+            width: 50%;
+            height: 20%;
+            display: block;
+            background: transparent;
+            pointer-events: auto;
+            outline: 2px dashed red;
         }
 
         .carousel {
