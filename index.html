@@ -34,7 +34,9 @@
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
-            height: 100dvh;
+
+            /* ✅ FIX: antes 100dvh */
+            height: 100svh;
         }
 
         .carousel__track::-webkit-scrollbar {
@@ -42,8 +44,10 @@
         }
 
         .carousel__slide {
-            flex: 0 0 100dvh;
-            height: 100dvh;
+            /* ✅ FIX: antes 100dvh */
+            flex: 0 0 100svh;
+            height: 100svh;
+
             scroll-snap-align: start;
             display: grid;
             place-items: center;
@@ -187,7 +191,7 @@
 
         .audio-btn {
             position: absolute;
-            bottom: 200px;
+            bottom: 20%;
             right: 42%;
             z-index: 20;
             width: 56px;
@@ -202,7 +206,21 @@
             display: grid;
             place-items: center;
             backdrop-filter: blur(4px);
-            transition: transform .2s ease, background .2s ease;
+
+            /* 👇 efecto inicial oculto */
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+
+            /* 👇 animación */
+            transition:
+                opacity 3s cubic-bezier(.22, 1, .36, 1),
+                transform 3s cubic-bezier(.22, 1, .36, 1),
+                background .2s ease;
+        }
+
+        .audio-btn.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
 
         .audio-btn:hover {
@@ -221,18 +239,23 @@
 
             .carousel {
                 width: min(700px, 100%);
-                height: 100vh;
+
+                /* ✅ FIX: antes 100vh */
+                height: 100svh;
+
                 border-radius: 16px;
                 overflow: hidden;
             }
 
             .carousel__track {
-                height: 100vh;
+                /* ✅ FIX: antes 100vh */
+                height: 100svh;
             }
 
             .carousel__slide {
-                flex: 0 0 100vh;
-                height: 100vh;
+                /* ✅ FIX: antes 100vh */
+                flex: 0 0 100svh;
+                height: 100svh;
             }
         }
 
@@ -251,11 +274,9 @@
         <div class="carousel__track" id="carouselTrack">
             <article class="carousel__slide">
                 <video src="media/1.mp4" autoplay muted loop playsinline></video>
-                <!-- ✅ Botón Play/Pausa en el primer slide -->
                 <button class="audio-btn" id="audioBtn" aria-label="Reproducir música">
                     <i class="fa-solid fa-play"></i>
                 </button>
-
             </article>
 
             <article class="carousel__slide">
@@ -300,8 +321,11 @@
     </section>
 
     <audio id="audio" src="musica.mpeg" preload="auto"></audio>
+
     <script>
         window.addEventListener('load', () => {
+
+
             const track = document.getElementById('carouselTrack');
             const slides = Array.from(track.children);
             const dotsWrap = document.getElementById('carouselDots');
@@ -324,7 +348,7 @@
 
             async function playAudio() {
                 try {
-                    await audio.play();   // requiere gesto del usuario en móvil
+                    await audio.play();
                     setBtnPlaying(true);
                 } catch (e) {
                     setBtnPlaying(false);
@@ -337,24 +361,20 @@
             }
 
             if (btn && audio) {
-                // Estado inicial
                 setBtnPlaying(false);
 
-                // Click Play/Pausa
                 btn.addEventListener('click', () => {
                     if (audio.paused) playAudio();
                     else pauseAudio();
                 });
 
-                /* 🔒 SOLO PAUSA AL SALIR DEL SITIO / CAMBIAR DE APP */
                 document.addEventListener('visibilitychange', () => {
                     if (document.hidden) pauseAudio();
                 });
 
-                window.addEventListener('pagehide', pauseAudio); // iOS Safari
-                window.addEventListener('blur', pauseAudio);     // cambio de app / ventana
+                window.addEventListener('pagehide', pauseAudio);
+                window.addEventListener('blur', pauseAudio);
 
-                // Sincronizar icono
                 audio.addEventListener('pause', () => setBtnPlaying(false));
                 audio.addEventListener('play', () => setBtnPlaying(true));
             }
@@ -399,6 +419,12 @@
 
             track.addEventListener('scroll', () => requestAnimationFrame(updateDots));
             window.addEventListener('resize', updateDots);
+
+
+            setTimeout(() => {
+                if (btn) btn.classList.add('show');
+            }, 300); // pequeño delay para que se note
+
         });
     </script>
 
