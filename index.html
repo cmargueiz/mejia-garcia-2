@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>2-Boda Mejia Garcia</title>
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -34,8 +35,6 @@
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
-
-            /* ✅ FIX: antes 100dvh */
             height: 100svh;
         }
 
@@ -44,45 +43,13 @@
         }
 
         .carousel__slide {
-            /* ✅ FIX: antes 100dvh */
             flex: 0 0 100svh;
             height: 100svh;
-
             scroll-snap-align: start;
             display: grid;
             place-items: center;
             position: relative;
             overflow: hidden;
-        }
-
-        .slide__bg {
-            position: absolute;
-            inset: -30px;
-            z-index: 0;
-            filter: blur(26px) saturate(1.25);
-            transform: scale(1.15);
-            opacity: 0.95;
-            pointer-events: none;
-        }
-
-        .slide__bg img,
-        .slide__bg video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            display: block;
-        }
-
-        .carousel__slide::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-            background: linear-gradient(to bottom,
-                    rgba(0, 0, 0, 0.15),
-                    rgba(0, 0, 0, 0.65));
-            pointer-events: none;
         }
 
         .carousel__slide img,
@@ -155,40 +122,7 @@
             }
         }
 
-        /* HOTSPOT */
-        .hotspot {
-            position: absolute;
-            top: 60%;
-            right: 52%;
-            width: 45%;
-            height: 14%;
-            z-index: 10;
-            cursor: pointer;
-            touch-action: manipulation;
-        }
-
-        .hotspot_novio {
-            position: absolute;
-            top: 70%;
-            right: 25%;
-            width: 45%;
-            height: 4%;
-            z-index: 10;
-            cursor: pointer;
-            touch-action: manipulation;
-        }
-
-        .hotspot_novia {
-            position: absolute;
-            top: 63%;
-            right: 25%;
-            width: 45%;
-            height: 4%;
-            z-index: 10;
-            cursor: pointer;
-            touch-action: manipulation;
-        }
-
+        /* AUDIO */
         .audio-btn {
             position: absolute;
             bottom: 20%;
@@ -197,7 +131,6 @@
             width: 56px;
             height: 56px;
             border-radius: 50%;
-
             border: 0.5px solid oldlace;
             background: rgba(0, 0, 0, 0.6);
             color: #fff;
@@ -206,12 +139,8 @@
             display: grid;
             place-items: center;
             backdrop-filter: blur(4px);
-
-            /* 👇 efecto inicial oculto */
             opacity: 0;
             transform: translateY(20px) scale(0.9);
-
-            /* 👇 animación */
             transition:
                 opacity 3s cubic-bezier(.22, 1, .36, 1),
                 transform 3s cubic-bezier(.22, 1, .36, 1),
@@ -232,39 +161,63 @@
             background: rgba(0, 0, 0, 0.8);
         }
 
-        @media (min-width: 768px) {
-            body {
-                padding: 24px;
-            }
-
-            .carousel {
-                width: min(700px, 100%);
-
-                /* ✅ FIX: antes 100vh */
-                height: 100svh;
-
-                border-radius: 16px;
-                overflow: hidden;
-            }
-
-            .carousel__track {
-                /* ✅ FIX: antes 100vh */
-                height: 100svh;
-            }
-
-            .carousel__slide {
-                /* ✅ FIX: antes 100vh */
-                flex: 0 0 100svh;
-                height: 100svh;
-            }
+        /* =======================
+           SLIDE 6 - BOTONES
+        ======================= */
+        .slide6-ui {
+            position: absolute;
+            top: 62.5%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 72%;
+            max-width: 360px;
+            z-index: 12;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            align-items: center;
+            pointer-events: auto;
         }
 
-        @media (min-width: 1024px) {
+        .slide6-ui .confirm-btn {
+            width: 50%;
+            text-decoration: none;
+            background: rgba(173, 201, 190, 0.92);
+            color: #2c3a36;
+            border-radius: 999px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 75%;
+            line-height: 1;
+            backdrop-filter: blur(2px);
+            -webkit-tap-highlight-color: transparent;
+            transition: transform .15s ease, filter .15s ease;
+        }
 
-            .carousel__slide>img,
-            .carousel__slide>video {
-                object-fit: cover;
-            }
+        .slide6-ui .confirm-btn:active {
+            transform: scale(0.98);
+            filter: brightness(0.98);
+        }
+
+        .slide6-ui .confirm-btn--novio {
+            font-weight: 700;
+            color: #0f1412;
+        }
+
+        .slide6-clickhint i {
+            font-size: 20px;
+            color: #e3a0b1;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .18));
+        }
+
+        .slide6-clickhint span {
+            font-size: 10px;
+            color: #2c3a36;
+            background: rgba(255, 255, 255, .65);
+            padding: 2px 6px;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -272,6 +225,7 @@
 <body>
     <section class="carousel" aria-label="Carrusel">
         <div class="carousel__track" id="carouselTrack">
+
             <article class="carousel__slide">
                 <video src="media/1.mp4" autoplay muted loop playsinline></video>
                 <button class="audio-btn" id="audioBtn" aria-label="Reproducir música">
@@ -289,20 +243,27 @@
 
             <article class="carousel__slide">
                 <video src="media/4.mp4" autoplay muted loop playsinline></video>
-                <a class="hotspot" href="https://maps.app.goo.gl/74xZnL4SpKYVFc846?g_st=aw" target="_blank"
-                    rel="noopener" aria-label="Ver ubicación en Google Maps"></a>
+                <a class="hotspot" href="https://maps.app.goo.gl/74xZnL4SpKYVFc846?g_st=aw" target="_blank"></a>
             </article>
 
             <article class="carousel__slide">
                 <video src="media/5.mp4" autoplay muted loop playsinline></video>
             </article>
 
+            <!-- ===== SLIDE 6 (BOTONES REALES) ===== -->
             <article class="carousel__slide">
                 <video src="media/6.mp4" autoplay muted loop playsinline></video>
-                <a class="hotspot_novia" href="https://wa.me/qr/IPDZIAGYDCROE1" target="_blank" rel="noopener"
-                    aria-label="WhatsApp Novia"></a>
-                <a class="hotspot_novio" href="https://wa.me/qr/MTJBGNQEBAHRO1" target="_blank" rel="noopener"
-                    aria-label="WhatsApp Novio"></a>
+
+                <div class="slide6-ui">
+                    <a class="confirm-btn" href="https://wa.me/qr/IPDZIAGYDCROE1" target="_blank">
+                        Confirma a la novia
+                    </a>
+
+                    <a class="confirm-btn" href="https://wa.me/qr/MTJBGNQEBAHRO1" target="_blank">
+                        Confirma al novio
+                    </a>
+
+                </div>
             </article>
 
             <article class="carousel__slide">
@@ -312,12 +273,12 @@
             <article class="carousel__slide">
                 <img src="media/8.svg" alt="Descripción de la imagen">
             </article>
+
         </div>
 
-        <button class="carousel__btn carousel__btn--prev" type="button" aria-label="Anterior">↑</button>
-        <button class="carousel__btn carousel__btn--next" type="button" aria-label="Siguiente">↓</button>
-
-        <div class="carousel__dots" id="carouselDots" aria-label="Indicadores"></div>
+        <button class="carousel__btn carousel__btn--prev" type="button">↑</button>
+        <button class="carousel__btn carousel__btn--next" type="button">↓</button>
+        <div class="carousel__dots" id="carouselDots"></div>
     </section>
 
     <audio id="audio" src="musica.mpeg" preload="auto"></audio>
@@ -325,14 +286,11 @@
     <script>
         window.addEventListener('load', () => {
 
-
             const track = document.getElementById('carouselTrack');
             const slides = Array.from(track.children);
             const dotsWrap = document.getElementById('carouselDots');
 
-            /* =======================
-               AUDIO CONTROL
-            ======================= */
+            /* AUDIO */
             const audio = document.getElementById('audio');
             const btn = document.getElementById('audioBtn');
             const icon = btn ? btn.querySelector('i') : null;
@@ -340,19 +298,12 @@
             function setBtnPlaying(isPlaying) {
                 if (!btn || !icon) return;
                 btn.classList.toggle('is-playing', isPlaying);
-                icon.className = isPlaying
-                    ? 'fa-solid fa-pause'
-                    : 'fa-solid fa-play';
-                btn.setAttribute('aria-label', isPlaying ? 'Pausar música' : 'Reproducir música');
+                icon.className = isPlaying ? 'fa-solid fa-pause' : 'fa-solid fa-play';
             }
 
             async function playAudio() {
-                try {
-                    await audio.play();
-                    setBtnPlaying(true);
-                } catch (e) {
-                    setBtnPlaying(false);
-                }
+                try { await audio.play(); setBtnPlaying(true); }
+                catch (e) { setBtnPlaying(false); }
             }
 
             function pauseAudio() {
@@ -362,32 +313,15 @@
 
             if (btn && audio) {
                 setBtnPlaying(false);
-
                 btn.addEventListener('click', () => {
                     if (audio.paused) playAudio();
                     else pauseAudio();
                 });
-
-                document.addEventListener('visibilitychange', () => {
-                    if (document.hidden) pauseAudio();
-                });
-
-                window.addEventListener('pagehide', pauseAudio);
-                window.addEventListener('blur', pauseAudio);
-
-                audio.addEventListener('pause', () => setBtnPlaying(false));
-                audio.addEventListener('play', () => setBtnPlaying(true));
             }
-
-            /* =======================
-               DOTS + NAVEGACIÓN
-            ======================= */
 
             slides.forEach((_, i) => {
                 const b = document.createElement('button');
                 b.className = 'carousel__dot' + (i === 0 ? ' is-active' : '');
-                b.type = 'button';
-                b.setAttribute('aria-label', `Ir al slide ${i + 1}`);
                 b.addEventListener('click', () => {
                     track.scrollTo({ top: i * track.clientHeight, behavior: 'smooth' });
                 });
@@ -418,12 +352,10 @@
             });
 
             track.addEventListener('scroll', () => requestAnimationFrame(updateDots));
-            window.addEventListener('resize', updateDots);
-
 
             setTimeout(() => {
                 if (btn) btn.classList.add('show');
-            }, 300); // pequeño delay para que se note
+            }, 300);
 
         });
     </script>
