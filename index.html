@@ -179,6 +179,7 @@
             pointer-events: auto;
         }
 
+        /* ✅ CAMBIO: efecto tipo audio-btn */
         .slide6-ui .confirm-btn {
             width: 50%;
             text-decoration: none;
@@ -189,11 +190,23 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            text-align: center;
             font-size: 75%;
             line-height: 1;
             backdrop-filter: blur(2px);
             -webkit-tap-highlight-color: transparent;
-            transition: transform .15s ease, filter .15s ease;
+
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition:
+                opacity 2.5s cubic-bezier(.22, 1, .36, 1),
+                transform 2.5s cubic-bezier(.22, 1, .36, 1),
+                filter .2s ease;
+        }
+
+        .slide6-ui .confirm-btn.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
 
         .slide6-ui .confirm-btn:active {
@@ -262,7 +275,6 @@
                     <a class="confirm-btn" href="https://wa.me/qr/MTJBGNQEBAHRO1" target="_blank">
                         Confirma al novio
                     </a>
-
                 </div>
             </article>
 
@@ -339,6 +351,14 @@
             function updateDots() {
                 const idx = currentIndex();
                 dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+
+                // ✅ CAMBIO: mostrar botones en el slide 6 (index 5)
+                const slide6 = slides[5]?.querySelector('.slide6-ui');
+                if (slide6) {
+                    const btns = slide6.querySelectorAll('.confirm-btn');
+                    if (idx === 5) btns.forEach(b => b.classList.add('show'));
+                    else btns.forEach(b => b.classList.remove('show'));
+                }
             }
 
             prev.addEventListener('click', () => {
@@ -353,6 +373,10 @@
 
             track.addEventListener('scroll', () => requestAnimationFrame(updateDots));
 
+            // estado inicial
+            updateDots();
+
+            // mostrar audio al inicio como ya lo tenías
             setTimeout(() => {
                 if (btn) btn.classList.add('show');
             }, 300);
